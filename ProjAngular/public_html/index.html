@@ -1,8 +1,23 @@
-
-<html>
+<!--ng-app diretiva --> <!-- -->
+<html ng-app="helloWorld">
     <head>
-        <title>Hello World</title>
+        <title>Hello World</title>       
+        <!-- Importar angular.js -->
+        <script src="angular.js"></script>
+        <script>
+            /*[]-> para importação de novos módulos que traz consigo componentes, filtros, serviços, diretivas */
+            angular.module("helloWorld", []); /*Criando Modelo*/
+            angular.module("helloWorld").controller("helloWorldCtrl", function($scope){
+                $scope.mensagem = "Hello World"; /*instanciando Modelo*/
+            });
+            /*Criando controller*/
+            
+        </script>
+        
     </head>
     <body>
+        <div ng-controller="helloWorldCtrl">
+            {{mensagem}}
+        </div>
     </body>
 </html>
