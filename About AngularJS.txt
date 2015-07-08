@@ -1,0 +1,10 @@
+Diretivas são extensões da linguagem HTML que permitem a implementação de novos comportamentos, de forma declarativa.
+
+Angular busca as diretivas no HTML.
+compila e executa as diretivas
+
+ngBind evita a impressão de "{{ algo aqui}}"
+
+ngController intermedia o scope com a view
+
+ngRepeat Iterando sobre os itens de uma coleção ou de um objeto.

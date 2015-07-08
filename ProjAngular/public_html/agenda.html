@@ -1,0 +1,37 @@
+<html ng-app="listaTelefonica">
+    <head>
+        <title>Lista Telefonica</title>
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+        <style>
+            .jumbotron{
+                width: 400px;
+                text-align: center;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 20px;
+                    
+            }
+            
+        </style>
+        <script src="lib/angular/angular.js"></script>
+        <script>
+            angular.module("listaTelefonica", []);
+            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+                $scope.app = "Lista Telefonica";                
+                $scope.contatos = [
+                    {nome: "Nemuel", telefone: "8612-4903"},
+                    {nome: "Queila", telefone: "8811-4904"},
+                    {nome: "Reginaldo", telefone: "8712-3908"}
+                ];
+            }); // a function recebe scope que faz a mediação entre view e contoller
+            
+        </script>
+    </head>
+    <body ng-controller="listaTelefonicaCtrl"> <!-- Só funciona caso exista o controler -->
+        <div class="jumbotron">
+            <!-- h4 ng-bind="app"></h4 -->
+            <h4> {{app}}</h4>
+            <h6> {{ contatos }} </h6>
+        </div>
+    </body>
+</html>
