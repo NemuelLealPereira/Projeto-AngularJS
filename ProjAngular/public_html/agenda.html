@@ -40,6 +40,13 @@
                    // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
                     //console.log($scope.telefone); 
                 }
+                $scope.operadoras = [
+                    {nome: "Oi", codigo: "31", categoria: "Celular"},
+                    {nome: "Vivo", codigo: "51", categoria: "Celular"},
+                    {nome: "Tim", codigo: "41", categoria: "Celular"},
+                    {nome: "GVT", codigo: "25", categoria: "Fixo"},
+                    {nome: "Embratel", codigo: "21", categoria: "Fixo"}
+                ];
             }); // a function recebe scope que faz a mediação entre view e contoller
             
         </script>
@@ -53,21 +60,27 @@
                 <tr>
                     <th> Nome </th>
                     <th>Telefone</th>
+                    <th>Operadora</th>
                 </tr>
                 <tr ng-repeat="contato in contatos">
                     <td> {{ contato.nome}}</td>
                     <td> {{contato.telefone}}</td>
+                    <td> {{contato.operadora.nome}}</td>
                     <!-- td ng-repeat="(key,value) in contato">
                         {{value}}
                     </td -->
                 </tr>
             </table>
-            
+       
             <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
             <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
+            
+            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
+                <option value="">Selecione uma Operadora</option>
+            </select>
             <!-- {{nome}}
             {{telefone}} -->
-            <button class="btn btn-success btn-block" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            <button class="btn btn-success btn-block" ng-disabled="!(contato.nome && contato.telefone)" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
             
         </div>
     </body>
