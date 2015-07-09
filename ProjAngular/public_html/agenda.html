@@ -9,7 +9,18 @@
                 margin-left: auto;
                 margin-right: auto;
                 margin-top: 20px;
+                padding: 20px;
                     
+            }
+            
+            .table{
+                margin-top: 20px;
+                margin-bottom: 60px;
+               
+            }
+            
+            .form-control{
+                margin-bottom: 5px;
             }
             
         </style>
@@ -23,6 +34,12 @@
                     {nome: "Queila", telefone: "8811-4904"},
                     {nome: "Reginaldo", telefone: "8712-3908"}
                 ];
+                $scope.adicionarContato = function(contato) {
+                    $scope.contatos.push(angular.copy(contato));
+                    delete $scope.contato;
+                   // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
+                    //console.log($scope.telefone); 
+                }
             }); // a function recebe scope que faz a mediação entre view e contoller
             
         </script>
@@ -30,8 +47,28 @@
     <body ng-controller="listaTelefonicaCtrl"> <!-- Só funciona caso exista o controler -->
         <div class="jumbotron">
             <!-- h4 ng-bind="app"></h4 -->
-            <h4> {{app}}</h4>
-            <h6> {{ contatos }} </h6>
+            <h3> {{app}}</h3>
+
+            <table class="table table-striped">
+                <tr>
+                    <th> Nome </th>
+                    <th>Telefone</th>
+                </tr>
+                <tr ng-repeat="contato in contatos">
+                    <td> {{ contato.nome}}</td>
+                    <td> {{contato.telefone}}</td>
+                    <!-- td ng-repeat="(key,value) in contato">
+                        {{value}}
+                    </td -->
+                </tr>
+            </table>
+            
+            <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
+            <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
+            <!-- {{nome}}
+            {{telefone}} -->
+            <button class="btn btn-success btn-block" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            
         </div>
     </body>
 </html>

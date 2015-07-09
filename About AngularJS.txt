@@ -3,8 +3,16 @@ Diretivas são extensões da linguagem HTML que permitem a implementação de novos 
 Angular busca as diretivas no HTML.
 compila e executa as diretivas
 
-ngBind evita a impressão de "{{ algo aqui}}"
+ngBind evita a impressão de "{{ algo aqui}}": Pega uma coisa do view e define no $scope
 
 ngController intermedia o scope com a view
 
 ngRepeat Iterando sobre os itens de uma coleção ou de um objeto.
+
+ngModel faz o inverso do ngBind: Vinculando uma propriedade ao $scope. Ou seja pega uma coisa do $scope e exibe.
+
+- input
+- select
+-textarea
+
+ngClick : Atribui um comportamento ao evento.
