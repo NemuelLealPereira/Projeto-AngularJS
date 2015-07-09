@@ -42,7 +42,7 @@
                     delete $scope.contato;
                    // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
                     //console.log($scope.telefone); 
-                }
+                };
                 $scope.operadoras = [
                     {nome: "Oi", codigo: "31", categoria: "Celular"},
                     {nome: "Vivo", codigo: "51", categoria: "Celular"},
@@ -50,6 +50,20 @@
                     {nome: "GVT", codigo: "25", categoria: "Fixo"},
                     {nome: "Embratel", codigo: "21", categoria: "Fixo"}
                 ];
+                $scope.apagarContatos = function (contatos){
+                    $scope.contatos = contatos.filter(function (contato){
+                        if (!contato.selecionado)
+                            return contato;
+                    });
+                };
+                
+                $scope.isContatoSelecionado = function (contatos){
+                    return contatos.some(function(contato){
+                        return contato.selecionado;
+                    });
+                };
+                
+                
             }); // a function recebe scope que faz a mediação entre view e contoller
             
         </script>
@@ -85,7 +99,8 @@
             </select>
             <!-- {{nome}}
             {{telefone}} -->
-            <button class="btn btn-success btn-block" ng-disabled="!(contato.nome && contato.telefone)" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            <button class="btn btn-primary btn-block" ng-disabled="!(contato.nome && contato.telefone)" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)"> Remover Contato</button>
             
         </div>
     </body>
