@@ -1,5 +1,6 @@
 <html ng-app="listaTelefonica">
     <head>
+        <!-- meta charset="UTF-8"/ -->
         <title>Lista Telefonica</title>
         <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
         <style>
@@ -97,20 +98,29 @@
                     </td -->
                 </tr>
             </table>
-       
-            <input class="form-control" type="text" ng-model="contato.nome" placeholder="Nome"/>
-            <input class="form-control" type="text" ng-model="contato.telefone" placeholder="Telefone"/>
             
-            <select class="form-control" ng-model="contato.operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras">
-                <option value="">Selecione uma Operadora</option>
-            </select>
+            <form name="contatoForm">
+                <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" />
+                <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true"/>
+
+                <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+                    <option value="">Selecione uma Operadora</option>
+                </select>
+            </form>
+            <div class="alert alert-danger" ng-show="contatoForm.nome.$invalid"> Inserir nome</div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$invalid"> Inserir telefone </div>
+            <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid"> Inserir Operadora </div>
+            
             <!-- {{nome}}
             {{telefone}} -->
-            <button class="btn btn-primary btn-block" ng-disabled="!(contato.nome && contato.telefone)" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            <button class="btn btn-primary btn-block" ng-disabled="contatoForm.$invalid" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
             <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-disabled="!isContatoSelecionado(contatos)"> Remover Contato</button>
             <!-- button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-hide="!isContatoSelecionado(contatos)"> Remover Contato</button>
             <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-if="isContatoSelecionado(contatos)"> Remover Contato</button -->
             
+             <!-- é necessário aspas simples dentro da dupla. Caso não tenha o angularJS acha que é uma variável de $scope -->
         </div>
+        
+        <div ng-include="'footer.html'"></div>
     </body>
 </html>
