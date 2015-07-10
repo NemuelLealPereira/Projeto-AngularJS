@@ -23,6 +23,7 @@
             .form-control{
                 margin-bottom: 5px;
             }
+            
             .selecionado{
                 background-color: #adadad;
             }
@@ -34,8 +35,10 @@
             
         </style>
         <script src="lib/angular/angular.js"></script>
+        <script src="lib/angular/angular-messages.js"></script>
         <script>
-            angular.module("listaTelefonica", []);
+            angular.module("listaTelefonica", ["ngMessages"]);
+            
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
                 $scope.app = "Lista Telefonica";                
                 $scope.contatos = [
@@ -43,6 +46,7 @@
                     {nome: "Queila", telefone: "8811-4904", cor: "red"},
                     {nome: "Reginaldo", telefone: "8712-3908", cor: "green"}
                 ];
+                
                 $scope.adicionarContato = function(contato) {
                     $scope.contatos.push(angular.copy(contato));
                     delete $scope.contato;
@@ -50,6 +54,7 @@
                    // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
                     //console.log($scope.telefone); 
                 };
+                
                 $scope.operadoras = [
                     {nome: "Oi", codigo: "31", categoria: "Celular"},
                     {nome: "Vivo", codigo: "51", categoria: "Celular"},
@@ -57,6 +62,7 @@
                     {nome: "GVT", codigo: "25", categoria: "Fixo"},
                     {nome: "Embratel", codigo: "21", categoria: "Fixo"}
                 ];
+                
                 $scope.apagarContatos = function (contatos){
                     // devo estudar filter  desvendando a linguagem JavaScripts arrays 9
                     $scope.contatos = contatos.filter(function (contato){
@@ -108,8 +114,14 @@
                     <option value="">Selecione uma Operadora</option>
                 </select>
             </form>
-            <div class="alert alert-danger" ng-show="contatoForm.nome.$error.required && contatoForm.nome.$dirty"> Inserir nome</div>
-            <div class="alert alert-danger" ng-show="contatoForm.nome.$error.minlength"> nome Inválido</div>
+            
+            <!-- o ng messages substitui ng-show e a diretiva ng-show, trocando-a para ng-message.
+            Além disso para se utilizar essa diretiva é necessário importar o arquivo angular-messages.js e colocar no módulo-->
+            <div ng-messages="contatoForm.nome.$error" >
+                <div class="alert alert-danger" ng-message="required && dirty"> Inserir nome</div>
+                <div  class="alert alert-danger" ng-message="minlength"> nome Inválido</div>
+            </div>
+            
             <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty"> Inserir telefone </div>
             <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.pattern"> Ex.: 3388-6339</div>
             <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid && contatoForm.operadora.$dirty"> Inserir Operadora </div>
