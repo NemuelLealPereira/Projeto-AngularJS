@@ -1,6 +1,6 @@
 <html ng-app="listaTelefonica">
     <head>
-        <!-- meta charset="UTF-8"/ -->
+        <meta charset="UTF-8"/>
         <title>Lista Telefonica</title>
         <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
         <style>
@@ -102,14 +102,17 @@
             
             <form name="contatoForm">
                 <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" />
-                <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true"/>
+                <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-minlength="8" ng-maxlength="8"/>
 
                 <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
                     <option value="">Selecione uma Operadora</option>
                 </select>
             </form>
             <div class="alert alert-danger" ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty"> Inserir nome</div>
-            <div class="alert alert-danger" ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty"> Inserir telefone </div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty"> Inserir telefone </div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.minlength && contatoForm.telefone.$dirty"> telefone Inválido</div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.maxlength && contatoForm.telefone.$dirty"> telefone Inválido</div>
+
             <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid && contatoForm.operadora.$dirty"> Inserir Operadora </div>
             
             <!-- {{nome}}
