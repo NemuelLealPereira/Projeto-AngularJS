@@ -46,6 +46,7 @@
                 $scope.adicionarContato = function(contato) {
                     $scope.contatos.push(angular.copy(contato));
                     delete $scope.contato;
+                    $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
                    // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
                     //console.log($scope.telefone); 
                 };
@@ -107,9 +108,9 @@
                     <option value="">Selecione uma Operadora</option>
                 </select>
             </form>
-            <div class="alert alert-danger" ng-show="contatoForm.nome.$invalid"> Inserir nome</div>
-            <div class="alert alert-danger" ng-show="contatoForm.telefone.$invalid"> Inserir telefone </div>
-            <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid"> Inserir Operadora </div>
+            <div class="alert alert-danger" ng-show="contatoForm.nome.$invalid && contatoForm.nome.$dirty"> Inserir nome</div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$invalid && contatoForm.telefone.$dirty"> Inserir telefone </div>
+            <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid && contatoForm.operadora.$dirty"> Inserir Operadora </div>
             
             <!-- {{nome}}
             {{telefone}} -->
