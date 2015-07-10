@@ -26,6 +26,11 @@
                 background-color: #adadad;
             }
             
+            //.div{
+            //    width: 20px; 
+            //    height: 20px;
+            //}
+            
         </style>
         <script src="lib/angular/angular.js"></script>
         <script>
@@ -33,9 +38,9 @@
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
                 $scope.app = "Lista Telefonica";                
                 $scope.contatos = [
-                    {nome: "Nemuel", telefone: "8612-4903"},
-                    {nome: "Queila", telefone: "8811-4904"},
-                    {nome: "Reginaldo", telefone: "8712-3908"}
+                    {nome: "Nemuel", telefone: "8612-4903", cor: "blue"},
+                    {nome: "Queila", telefone: "8811-4904", cor: "red"},
+                    {nome: "Reginaldo", telefone: "8712-3908", cor: "green"}
                 ];
                 $scope.adicionarContato = function(contato) {
                     $scope.contatos.push(angular.copy(contato));
@@ -51,6 +56,7 @@
                     {nome: "Embratel", codigo: "21", categoria: "Fixo"}
                 ];
                 $scope.apagarContatos = function (contatos){
+                    // devo estudar filter  desvendando a linguagem JavaScripts arrays 9
                     $scope.contatos = contatos.filter(function (contato){
                         if (!contato.selecionado)
                             return contato;
@@ -71,20 +77,21 @@
     <body ng-controller="listaTelefonicaCtrl"> <!-- Só funciona caso exista o controler -->
         <div class="jumbotron">
             <!-- h4 ng-bind="app"></h4 -->
-            <h3> {{app}}</h3>
+            <h3>{{app}}</h3>
 
             <table class="table">
                 <tr>
                     <th></th>
-                    <th> Nome </th>
+                    <th>Nome</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
                 </tr>
                 <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
-                    <td><input type="checkbox" ng-model="contato.selecionado"/> </td>
-                    <td> {{ contato.nome}}</td>
+                    <td><input type="checkbox" ng-model="contato.selecionado" /> </td>
+                    <td> {{contato.nome}}</td>
                     <td> {{contato.telefone}}</td>
                     <td> {{contato.operadora.nome}}</td>
+                    <td><div style="width: 20px; height: 20px; " ng-style="{'background-color': contato.cor}"></div></td>                    
                     <!-- td ng-repeat="(key,value) in contato">
                         {{value}}
                     </td -->
