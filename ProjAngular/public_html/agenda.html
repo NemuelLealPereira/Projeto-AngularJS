@@ -80,7 +80,7 @@
             <h3>{{app}}</h3>
 
             <table class="table">
-                <tr>
+                <tr ng-show="contatos.length > 0">
                     <th></th>
                     <th>Nome</th>
                     <th>Telefone</th>
@@ -107,7 +107,9 @@
             <!-- {{nome}}
             {{telefone}} -->
             <button class="btn btn-primary btn-block" ng-disabled="!(contato.nome && contato.telefone)" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
-            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)" ng-disabled="!isContatoSelecionado(contatos)"> Remover Contato</button>
+            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-disabled="!isContatoSelecionado(contatos)"> Remover Contato</button>
+            <!-- button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-hide="!isContatoSelecionado(contatos)"> Remover Contato</button>
+            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-if="isContatoSelecionado(contatos)"> Remover Contato</button -->
             
         </div>
     </body>
