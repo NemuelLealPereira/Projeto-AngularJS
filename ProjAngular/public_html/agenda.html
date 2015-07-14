@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
         <style>
             .jumbotron{
-                width: 400px;
+                width: 700px;
                 text-align: center;
                 margin-left: auto;
                 margin-right: auto;
@@ -42,13 +42,14 @@
             angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
                 $scope.app = "Lista Telefonica";                
                 $scope.contatos = [
-                    {nome: "Nemuel", telefone: "8612-4903", cor: "blue"},
-                    {nome: "Queila", telefone: "8811-4904", cor: "red"},
-                    {nome: "Reginaldo", telefone: "8712-3908", cor: "green"}
+                    {nome: "Nemuel", telefone: "8612-4903", data: new Date(), cor: "blue", operadora: {nome: "Oi", codigo: "31", categoria: "Celular"}},
+                    {nome: "Queila", telefone: "8811-4904", data: new Date(), cor: "red", operadora: {nome: "Vivo", codigo: "51", categoria: "Celular"}},
+                    {nome: "Reginaldo", telefone: "8712-3908", data: new Date(), cor: "green", operadora: {nome: "Tim", codigo: "41", categoria: "Celular"}}
                 ];
                 
                 $scope.adicionarContato = function(contato) {
                     $scope.contatos.push(angular.copy(contato));
+                    
                     delete $scope.contato;
                     $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
                    // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
@@ -85,21 +86,27 @@
     <body ng-controller="listaTelefonicaCtrl"> <!-- Só funciona caso exista o controler -->
         <div class="jumbotron">
             <!-- h4 ng-bind="app"></h4 -->
-            <h3>{{app}}</h3>
-
+            <h2>{{app}}</h2>
+            
             <table class="table">
+                
+                <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Faça sua busca aqui!"/>
+                
                 <tr ng-show="contatos.length > 0">
                     <th></th>
                     <th>Nome</th>
                     <th>Telefone</th>
                     <th>Operadora</th>
+                    <th>Data</th>
                 </tr>
-                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos">
+                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos |filter:criterioDeBusca"> <!-- filter: {nome: criterioDeBusca}-->
                     <td><input type="checkbox" ng-model="contato.selecionado" /> </td>
-                    <td> {{contato.nome}}</td>
-                    <td> {{contato.telefone}}</td>
-                    <td> {{contato.operadora.nome}}</td>
-                    <td><div style="width: 20px; height: 20px; " ng-style="{'background-color': contato.cor}"></div></td>                    
+                    <td>{{contato.nome | uppercase}}</td>
+                    <td>{{contato.telefone}}</td>
+                    <td>{{contato.operadora.nome | lowercase}}</td>
+                    <td>{{contato.data | date: 'dd/mm/yy hh:mm:ss'}}</td>
+                    <!-- td><div style="width: 20px; height: 20px; " ngcontato.data | date: 'dd/MM/yyyy HH:mm'-style="{'background-color': contato.cor}"></div></td -->                    
+                    <!-- td><div style="width: 20px; height: 20px; " ng-style="{'background-color': contato.cor}"></div></td -->
                     <!-- td ng-repeat="(key,value) in contato">
                         {{value}}
                     </td -->
@@ -113,9 +120,11 @@
                 <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
                     <option value="">Selecione uma Operadora</option>
                 </select>
+                
+                
             </form>
             
-            <!-- o ng messages substitui ng-show e a diretiva ng-show, trocando-a para ng-message.
+            <!-- o ng messages substitui a diretiva ng-show, trocando-a para ng-message.
             Além disso para se utilizar essa diretiva é necessário importar o arquivo angular-messages.js e colocar no módulo-->
             <div ng-messages="contatoForm.nome.$error" >
                 <div class="alert alert-danger" ng-message="required && dirty"> Inserir nome</div>
