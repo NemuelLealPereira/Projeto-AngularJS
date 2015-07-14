@@ -43,7 +43,7 @@
                 $scope.app = "Lista Telefonica";                
                 $scope.contatos = [
                     {nome: "Nemuel", telefone: "8612-4903", data: new Date(), cor: "blue", operadora: {nome: "Oi", codigo: "31", categoria: "Celular"}},
-                    {nome: "Queila", telefone: "8811-4904", data: new Date(), cor: "red", operadora: {nome: "Vivo", codigo: "51", categoria: "Celular"}},
+                    {nome: "Queila", telefone: "8511-4904", data: new Date(), cor: "red", operadora: {nome: "Vivo", codigo: "51", categoria: "Celular"}},
                     {nome: "Reginaldo", telefone: "8712-3908", data: new Date(), cor: "green", operadora: {nome: "Tim", codigo: "41", categoria: "Celular"}}
                 ];
                 
@@ -78,6 +78,10 @@
                     });
                 };
                 
+                $scope.ordenarPor = function(campo){
+                    $scope.criterioDeOrdenacao = campo;
+                    $scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
+                };
                 
             }); // a function recebe scope que faz a mediação entre view e contoller
             
@@ -94,12 +98,12 @@
                 
                 <tr ng-show="contatos.length > 0">
                     <th></th>
-                    <th>Nome</th>
+                    <th><a ng-click="ordenarPor('nome')">Nome</a></th>
                     <th>Telefone</th>
                     <th>Operadora</th>
                     <th>Data</th>
                 </tr>
-                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos |filter:criterioDeBusca"> <!-- filter: {nome: criterioDeBusca}-->
+                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos |filter:criterioDeBusca |orderBy: criterioDeOrdenacao:direcaoDaOrdenacao"> <!-- filter: {nome: criterioDeBusca}-->
                     <td><input type="checkbox" ng-model="contato.selecionado" /> </td>
                     <td>{{contato.nome | uppercase}}</td>
                     <td>{{contato.telefone}}</td>
@@ -117,7 +121,7 @@
                 <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="3"/>
                 <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/"/>
 
-                <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras" ng-required="true">
+                <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome group by operadora.categoria for operadora in operadoras | orderBy: 'nome'  " ng-required="true">
                     <option value="">Selecione uma Operadora</option>
                 </select>
                 
