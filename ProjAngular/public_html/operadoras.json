@@ -1,0 +1,34 @@
+[
+    {    
+        "nome": "Oi", 
+        "codigo": "31", 
+        "categoria": "Celular", 
+        "preco": 12
+    },
+    {
+        "nome": "Vivo", 
+        "codigo": "51", 
+        "categoria": "Celular", 
+        "preco": 14
+    },
+    {
+        "nome": "Tim", 
+        "codigo": "41", 
+        "categoria": "Celular", 
+        "preco": 18     
+    },
+    {
+        "nome": "GVT", 
+        "codigo": "25", 
+        "categoria": "Fixo", 
+        "preco": 16
+       
+    },
+    {
+        "nome": "Embratel", 
+        "codigo": "21", 
+        "categoria": "Fixo", 
+        "preco": 10
+    }
+]
+

@@ -1,0 +1,40 @@
+[
+    {
+        "nome": "Nemuel",
+        "telefone": "8612-4903",
+        "data": "2015-04-12T12:53:46.204Z", 
+        "cor": "blue", 
+        "operadora": {
+            "nome": "Oi", 
+            "codigo": 31, 
+            "categoria": "Celular"
+            }                 
+    },
+    {
+        "nome" : "Queila", 
+        "telefone" : "8511-4904", 
+        "data": "2015-04-12T12:53:46.204Z", 
+        "cor": "red", 
+        "operadora": {
+            "nome": "Vivo", 
+            "codigo": 51, 
+            "categoria": "Celular"
+            }
+               
+    },
+    {
+        "nome": "Reginaldo",
+        "telefone": "8712-3908", 
+        "data": "2015-04-12T12:53:46.204Z",
+        "cor": "green",
+        "operadora": {
+            "nome": "Tim", 
+            "codigo": 41, 
+            "categoria": "Celular"
+            }
+                
+    }    
+]
+
+
+                

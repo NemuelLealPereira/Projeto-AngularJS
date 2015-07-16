@@ -38,32 +38,44 @@
         <script src="lib/angular/angular-messages.js"></script>
         <script src="lib/angular/angular-locale_pt-br.js"></script>
         <script>
-            angular.module("listaTelefonica", ["ngMessages"]);
-            
-            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope){
+            angular.module("listaTelefonica", ["ngMessages"]);            
+            angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
+                                
                 $scope.app = "Lista Telefonica";                
-                $scope.contatos = [
-                    {nome: "Nemuel", telefone: "8612-4903", data: new Date(), cor: "blue", operadora: {nome: "Oi", codigo: "31", categoria: "Celular"}},
-                    {nome: "Queila", telefone: "8511-4904", data: new Date(), cor: "red", operadora: {nome: "Vivo", codigo: "51", categoria: "Celular"}},
-                    {nome: "Reginaldo", telefone: "8712-3908", data: new Date(), cor: "green", operadora: {nome: "Tim", codigo: "41", categoria: "Celular"}}
-                ];
+                $scope.contatos = [];                
+                $scope.operadoras = [];
                 
-                $scope.adicionarContato = function(contato) {
-                    $scope.contatos.push(angular.copy(contato));
-                    
-                    delete $scope.contato;
-                    $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
-                   // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
-                    //console.log($scope.telefone); 
+                // só scope se for invocar diretamente pela view assim então pode usar var
+                
+                var carregarContatos = function () {
+                    $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/contatos.json").success(function(data) {
+                        $scope.contatos = data;
+                    }).error(function(data){ // apresenta na tela o erro
+                        $scope.message = "Aconteceu um problema: " + data;
+                    });                        
                 };
                 
-                $scope.operadoras = [
-                    {nome: "Oi", codigo: "31", categoria: "Celular", preco: 12},
-                    {nome: "Vivo", codigo: "51", categoria: "Celular", preco: 14},
-                    {nome: "Tim", codigo: "41", categoria: "Celular", preco: 18},
-                    {nome: "GVT", codigo: "25", categoria: "Fixo", preco: 16},
-                    {nome: "Embratel", codigo: "21", categoria: "Fixo", preco: 10}
-                ];
+                var carregarOperacoes = function () {
+                    $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/operadoras.json").success(function(data) {
+                         $scope.operadoras = data;                        
+                    });                       
+                };
+                
+                
+                $scope.adicionarContato = function(contato) {
+                    //$scope.contatos.push(angular.copy(contato));
+                    contato.data = new Date();
+                    
+                    $http.post("http://localhost/Projetos/AngularJS/ProjAngular/public_html/contatos.json", contato).success(function(data) {
+                        console.log(contato);
+                        delete $scope.contato;
+                        $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
+                        // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
+                        //console.log($scope.telefone); 
+                        carregarContatos();                       
+                    });                   
+                };
+                
                 
                 $scope.apagarContatos = function (contatos){
                     // devo estudar filter  desvendando a linguagem JavaScripts arrays 9
@@ -82,9 +94,12 @@
                 $scope.ordenarPor = function(campo){
                     $scope.criterioDeOrdenacao = campo;
                     $scope.direcaoDaOrdenacao = !$scope.direcaoDaOrdenacao;
-                };
+                };    
                 
+                carregarContatos();
+                carregarOperacoes(); 
             }); // a function recebe scope que faz a mediação entre view e contoller
+            
             
         </script>
     </head>
@@ -92,7 +107,7 @@
         <div class="jumbotron">
             <!-- h4 ng-bind="app"></h4 -->
             <h2>{{app}}</h2>
-            
+            {{message}}
             <table class="table">
                 
                 <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Faça sua busca aqui!"/>
