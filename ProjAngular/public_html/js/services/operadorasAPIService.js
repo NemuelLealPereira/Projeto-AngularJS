@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 
-angular.module("listaTelefonica").service("operadorasAPI", function ($http){
+angular.module("listaTelefonica").service("operadorasAPI", function ($http, config){
     this.getOperadoras = function (){
-        return $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/Operadoras.json");
-   } 
+        return $http.get(config.baseURL + "/Operadoras.json");
+   }; 
 });

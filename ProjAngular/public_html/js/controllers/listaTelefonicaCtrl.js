@@ -33,7 +33,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
 
         contatosAPI.saveContato(contato).success(function(data) {
             console.log(contato);    
-            //console.log(contatosAPI.saveContato());   
+            console.log(contatosAPI.saveContato(contato));   
             delete $scope.contato;
             $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
             // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})

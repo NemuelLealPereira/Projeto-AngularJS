@@ -5,17 +5,17 @@
  */
 
 
-angular.module("listaTelefonica").factory("contatosAPI", function ($http){
+angular.module("listaTelefonica").factory("contatosAPI", function ($http, config){
     var _getContatos = function (){
-        return $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/contatos.json");
+        return $http.get(config.baseURL + "/contatos.json");
     };
     
     var _getOperadoras = function (){
-        return $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/Operadoras.json");
+        return $http.get(config.baseURL + "/Operadoras.json");
     };
     
     var _saveContato = function (contato){
-        return $http.post("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/contatos.json", contato);
+        return $http.post(config.baseURL + "/contatos.json", contato);
     };
     
     return{
