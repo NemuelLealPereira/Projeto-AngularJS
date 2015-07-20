@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, contatosAPI){
+angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, contatosAPI, operadorasAPI){
 
     $scope.app = "Lista Telefonica";                
     $scope.contatos = [];                
@@ -21,7 +21,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
     };
 
     var carregarOperacoes = function () {
-        contatosAPI.getOperadoras().success(function(data) {
+        operadorasAPI.getOperadoras().success(function(data) {
              $scope.operadoras = data;
         });                       
     };
