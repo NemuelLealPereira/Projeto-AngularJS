@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 
-
-
-angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, $http){
+angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($scope, contatosAPI){
 
     $scope.app = "Lista Telefonica";                
     $scope.contatos = [];                
@@ -15,7 +13,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
     // só scope se for invocar diretamente pela view assim então pode usar var
 
     var carregarContatos = function () {
-        $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/contatos.json").success(function(data) {
+        contatosAPI.getContatos().success(function(data) {
             $scope.contatos = data;
         }).error(function(data){ // apresenta na tela o erro
             $scope.message = "Aconteceu um problema: " + data;
@@ -23,7 +21,7 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
     };
 
     var carregarOperacoes = function () {
-        $http.get("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/operadoras.json").success(function(data) {
+        contatosAPI.getOperadoras().success(function(data) {
              $scope.operadoras = data;
         });                       
     };
@@ -33,9 +31,9 @@ angular.module("listaTelefonica").controller("listaTelefonicaCtrl", function($sc
         //$scope.contatos.push(angular.copy(contato));
         contato.data = new Date();
 
-        $http.post("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/contatos.json", contato).success(function(data) {
+        contatosAPI.saveContato(contato).success(function(data) {
             console.log(contato);    
-            console.log($http.post("http://localhost/Projetos/AngularJS/ProjAngular/public_html/js/contatos.json", contato));   
+            //console.log(contatosAPI.saveContato());   
             delete $scope.contato;
             $scope.contatoForm.$setPristine(); // setando pristine na validação dos campos para não aparecer as mensagens de erro depois de adicionar algo.
             // Essa linha de código não é ideal pois está lendo $scope.contatos.push({nome: $scope.nome, telefone: $scope.telefone})
