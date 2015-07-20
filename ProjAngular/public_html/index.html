@@ -1,23 +1,77 @@
-<!--ng-app diretiva --> <!-- -->
-<html ng-app="helloWorld">
+<html ng-app="listaTelefonica">
     <head>
-        <title>Hello World</title>       
-        <!-- Importar angular.js -->
+        <meta charset="UTF-8"/>
+        <title>Lista Telefonica</title>
+        <link rel="stylesheet" type="text/css" href="lib/bootstrap/bootstrap.css">
+        <link rel="stylesheet" type="text/css" href="css/app.css">        
         <script src="lib/angular/angular.js"></script>
-        <script>
-            /*[]-> para importação de novos módulos que traz consigo componentes, filtros, serviços, diretivas */
-            angular.module("helloWorld", []); /*Criando Modelo*/
-            angular.module("helloWorld").controller("helloWorldCtrl", function($scope){
-                $scope.mensagem = "Hello World"; /*instanciando Modelo*/
-            });
-            /*Criando controller*/
-            
-        </script>
-        
+        <script src="lib/angular/angular-messages.js"></script>
+        <script src="lib/angular/angular-locale_pt-br.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/controllers/listaTelefonicaCtrl.js"></script>
     </head>
-    <body>
-        <div ng-controller="helloWorldCtrl">
-            {{mensagem}}
+    <body ng-controller="listaTelefonicaCtrl"> <!-- Só funciona caso exista o controler -->
+        <div class="jumbotron">
+            <!-- h4 ng-bind="app"></h4 -->
+            <h2>{{app}}</h2>
+            {{message}}
+            <table class="table">
+                
+                <input class="form-control" type="text" ng-model="criterioDeBusca" placeholder="Faça sua busca aqui!"/>
+                
+                <tr ng-show="contatos.length > 0">
+                    <th></th>
+                    <th><a ng-click="ordenarPor('nome')">Nome</a></th>
+                    <th>Telefone</th>
+                    <th>Operadora</th>
+                    <th>Data</th>
+                </tr>
+                <tr ng-class="{selecionado: contato.selecionado}" ng-repeat="contato in contatos |filter:criterioDeBusca |orderBy: criterioDeOrdenacao:direcaoDaOrdenacao"> <!-- filter: {nome: criterioDeBusca}-->
+                    <td><input type="checkbox" ng-model="contato.selecionado" /> </td>
+                    <td>{{contato.nome | uppercase}}</td>
+                    <td>{{contato.telefone}}</td>
+                    <td>{{contato.operadora.nome | lowercase}}</td>
+                    <td>{{contato.data | date: 'dd/mm/yy hh:mm:ss'}}</td>
+                    <!-- td><div style="width: 20px; height: 20px; " ngcontato.data | date: 'dd/MM/yyyy HH:mm'-style="{'background-color': contato.cor}"></div></td -->                    
+                    <!-- td><div style="width: 20px; height: 20px; " ng-style="{'background-color': contato.cor}"></div></td -->
+                    <!-- td ng-repeat="(key,value) in contato">
+                        {{value}}
+                    </td -->
+                </tr>
+            </table>
+            
+            <form name="contatoForm">
+                <input class="form-control" type="text" ng-model="contato.nome" name="nome" placeholder="Nome" ng-required="true" ng-minlength="3"/>
+                <input class="form-control" type="text" ng-model="contato.telefone" name="telefone" placeholder="Telefone" ng-required="true" ng-pattern="/^\d{4,5}-\d{4}$/"/>
+
+                <select class="form-control" ng-model="contato.operadora" name="operadora" ng-options="operadora.nome + ' ('  + (operadora.preco | currency) +  ')' group by operadora.categoria for operadora in operadoras | orderBy: 'nome'  " ng-required="true">
+                    <option value="">Selecione uma Operadora</option>
+                </select>
+                
+                
+            </form>
+            
+            <!-- o ng messages substitui a diretiva ng-show, trocando-a para ng-message.
+            Além disso para se utilizar essa diretiva é necessário importar o arquivo angular-messages.js e colocar no módulo-->
+            <div ng-messages="contatoForm.nome.$error" >
+                <div class="alert alert-danger" ng-message="required && dirty"> Inserir nome</div>
+                <div  class="alert alert-danger" ng-message="minlength"> nome Inválido</div>
+            </div>
+            
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.required && contatoForm.telefone.$dirty"> Inserir telefone </div>
+            <div class="alert alert-danger" ng-show="contatoForm.telefone.$error.pattern"> Ex.: 3388-6339</div>
+            <div class="alert alert-danger" ng-show="contatoForm.operadora.$invalid && contatoForm.operadora.$dirty"> Inserir Operadora </div>
+            
+            <!-- {{nome}}
+            {{telefone}} -->
+            <button class="btn btn-primary btn-block" ng-disabled="contatoForm.$invalid" ng-click="adicionarContato(contato)"> Adicionar Contato</button>
+            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-disabled="!isContatoSelecionado(contatos)"> Remover Contato</button>
+            <!-- button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-hide="!isContatoSelecionado(contatos)"> Remover Contato</button>
+            <button class="btn btn-danger btn-block" ng-click="apagarContatos(contatos)"  ng-if="isContatoSelecionado(contatos)"> Remover Contato</button -->
+            
+             <!-- é necessário aspas simples dentro da dupla. Caso não tenha o angularJS acha que é uma variável de $scope -->
         </div>
+        
+        <div ng-include="'view/footer.html'"></div>
     </body>
 </html>
